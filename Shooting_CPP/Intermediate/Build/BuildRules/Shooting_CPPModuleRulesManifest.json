@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"/Users/doyeopkim/Study/dgu/game-engine-programming/proj/Shooting_CPP/Source/Shooting_CPP/Shooting_CPP.Build.cs",
+		"/Users/doyeopkim/Study/dgu/game-engine-programming/proj/Shooting_CPP/Source/Shooting_CPP.Target.cs",
+		"/Users/doyeopkim/Study/dgu/game-engine-programming/proj/Shooting_CPP/Source/Shooting_CPPEditor.Target.cs"
+	],
+	"EngineVersion": "4.27.2"
+}

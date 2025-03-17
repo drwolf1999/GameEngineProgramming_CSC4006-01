@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Shooting_CPP",
+			"Path": "/Users/doyeopkim/Study/dgu/game-engine-programming/proj/Shooting_CPP/Source/Shooting_CPP.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "Shooting_CPPEditor",
+			"Path": "/Users/doyeopkim/Study/dgu/game-engine-programming/proj/Shooting_CPP/Source/Shooting_CPPEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
