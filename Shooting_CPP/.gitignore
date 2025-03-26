@@ -1,4 +1,6 @@
 .DS_Store
+.git/
+
 # Visual Studio 2015 user specific files
 .vs/
 
