@@ -4,7 +4,7 @@
 #include "EnemyActor.h"
 
 #include "EngineUtils.h"
-#include "PlayerPawn.h"
+// #include "PlayerPawn.h"
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -27,12 +27,12 @@ void AEnemyActor::BeginPlay() {
 
     int32 r = FMath::RandRange(1, 100);
     if (r <= TraceRate) {
-        for (TActorIterator<APlayerPawn> player(GetWorld()); player; ++player) {
-            if (player->GetName().Contains(TEXT("BP_PlayerPawn"))) {
-                dir = player->GetActorLocation() - GetActorLocation();
-                dir.Normalize();
-            }
-        }
+        // for (TActorIterator<APlayerPawn> player(GetWorld()); player; ++player) {
+        //     if (player->GetName().Contains(TEXT("BP_PlayerPawn"))) {
+        //         dir = player->GetActorLocation() - GetActorLocation();
+        //         dir.Normalize();
+        //     }
+        // }
     } else {
         dir = GetActorForwardVector();
     }
