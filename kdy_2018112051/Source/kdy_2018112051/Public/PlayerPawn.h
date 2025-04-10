@@ -31,10 +31,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* MeshComponent;
 
-	const static float DefaultMoveSpeed;
-	UPROPERTY(EditAnywhere)
-	float MoveSpeed;
-
 	// bullet
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* FirePosition;
@@ -42,8 +38,29 @@ public:
 	TSubclassOf<class ABullet> BulletFactory;
 
 private:
+	///////////
+	/// power
+	///////////
+	const static float MaxPower;
+	float power;
+	void GainPower(float p);
+	void LosePower(float p);
+
+	///////////
+	/// move
+	///////////
+	const static float DefaultMoveSpeed;
+	const static float RunMoveSpeed;
+	UPROPERTY(EditAnywhere)
+	float speed;
+	void MoveTick(float DeltaTime);
+	void Walk();
+	void Run();
+
 	float h;
 	float v;
 	void MoveHorizontal(float h);
 	void MoveVertical(float v);
+
+	void Fire();
 };

@@ -4,24 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ObjectPooler.generated.h"
+#include "Wall.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AObjectPooler : public AActor {
+class KDY_2018112051_API AWall : public AActor
+{
 	GENERATED_BODY()
-
-public:
+	
+public:	
 	// Sets default values for this actor's properties
-	AObjectPooler();
+	AWall();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	int Size;
+	class UBoxComponent* BoxComponent;
+
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* MeshComponent;
+
+
 };
