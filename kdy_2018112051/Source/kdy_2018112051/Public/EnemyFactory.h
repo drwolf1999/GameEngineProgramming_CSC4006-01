@@ -4,31 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Wall.generated.h"
+#include "EnemyFactory.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AWall : public AActor
-{
+class KDY_2018112051_API AEnemyFactory : public AActor {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
-	AWall();
+	AEnemyFactory();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	class UBoxComponent* BoxComponent;
+	float DelayTime = 2.f;
 
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* MeshComponent;
-
-
+	TSubclassOf<class AEnemy> Enemy;
+private:
+	float currentTime = 0;
 };
-

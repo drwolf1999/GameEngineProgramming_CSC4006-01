@@ -4,6 +4,7 @@
 #include "kdy_2018112051/Public/PlayerPawn.h"
 
 #include "Bullet.h"
+#include "Wall.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -21,6 +22,8 @@ APlayerPawn::APlayerPawn() {
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	SetRootComponent(BoxComponent);
 	BoxComponent->SetBoxExtent(FVector(50.f, 50.f, 50.f));
+
+	BoxComponent->SetCollisionProfileName(TEXT("Player"));
 
 	// MeshComponent
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
@@ -79,7 +82,26 @@ void APlayerPawn::MoveTick(float DeltaTime) {
 	FVector dir = FVector(0, h, v);
 	dir.Normalize();
 	FVector newLoc = GetActorLocation() + dir * speed * DeltaTime;
-	SetActorLocation(newLoc);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this); // 자기 자신 무시
+
+	TArray<FOverlapResult> Overlaps;
+
+	bool bWillOverlap = GetWorld()->OverlapMultiByChannel(
+		Overlaps,
+		newLoc,
+		FQuat::Identity,
+		// ECC_GameTraceChannel1,
+		ECollisionChannel::ECC_GameTraceChannel4,
+		FCollisionShape::MakeBox(BoxComponent->GetScaledBoxExtent()),
+		QueryParams
+	);
+	if (!bWillOverlap) {
+		SetActorLocation(newLoc);
+	} else {
+		UE_LOG(LogTemp, Warning, TEXT("Blocked due to overlap!"));
+	}
 }
 
 
@@ -100,6 +122,6 @@ void APlayerPawn::Run() {
 }
 
 void APlayerPawn::Fire() {
-	ABullet* bullet = GetWorld()->SpawnActor<ABullet>(BulletFactory, FirePosition->GetComponentLocation(), FirePosition->GetComponentRotation());
+	ABullet* bullet = GetWorld()->SpawnActor<ABullet>(BulletFactory, FirePosition->GetComponentLocation(),
+	                                                  FirePosition->GetComponentRotation());
 }
-

@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Wall.generated.h"
+#include "Camera.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AWall : public AActor
+class KDY_2018112051_API ACamera : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWall();
+	ACamera();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,11 +24,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	class UBoxComponent* BoxComponent;
+	AActor* Target;
 
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* MeshComponent;
+	FVector Offset = FVector(-1000.f, 0.f, 0.f);
 
-
+private:
+	UPROPERTY()
+	class UCameraComponent* camera;
 };
-
