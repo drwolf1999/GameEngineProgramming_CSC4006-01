@@ -3,37 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Enemy.h"
 #include "GameFramework/Actor.h"
-#include "Enemy.generated.h"
+#include "Enemy4.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AEnemy : public AActor {
+class KDY_2018112051_API AEnemy4 : public AEnemy
+{
 	GENERATED_BODY()
-
-public:
+	
+public:	
 	// Sets default values for this actor's properties
-	AEnemy();
+	AEnemy4();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	class UBoxComponent* BoxComponent;
-
-	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* MeshComponent;
-
-	UPROPERTY(EditAnywhere)
-	int32 TraceRate = 50;
-
-	UPROPERTY(EditAnywhere)
-	float MoveSpeed = 800.f;
-	
-private:
-	FVector dir;
+protected:
+    void MoveTick(float DeltaTime) override;
 };

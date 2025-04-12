@@ -10,34 +10,38 @@
 #include "MapGenerator.generated.h"
 
 UCLASS()
+
 class KDY_2018112051_API AMapGenerator : public AActor {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AMapGenerator();
+    // Sets default values for this actor's properties
+    AMapGenerator();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+    // Called every frame
+    void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	int Level = 0;
+    UPROPERTY(EditAnywhere)
+    int Level = 0;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class AWall> WallFactory;
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<class AWall> WallFactory;
 
-	float TileSize = 100.0f;
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<class AEnemyFactory> EnemyFactoryFactory;
+
+    float TileSize = 100.0f;
 
 private:
-	void Generate();
+    void Generate();
 
-	///////////////////////////////////
-	/// Map Data
-	///////////////////////////////////
-	const static std::vector<std::string> _data;
+    ///////////////////////////////////
+    /// Map Data
+    ///////////////////////////////////
+    const static std::vector<std::string> _data;
 };

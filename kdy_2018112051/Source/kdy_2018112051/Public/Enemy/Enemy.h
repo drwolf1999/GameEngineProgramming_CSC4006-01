@@ -4,16 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Bullet.generated.h"
+#include "Enemy.generated.h"
 
 UCLASS()
-
-class KDY_2018112051_API ABullet : public AActor {
+class KDY_2018112051_API AEnemy : public AActor {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    ABullet();
+    AEnemy();
 
 protected:
     // Called when the game starts or when spawned
@@ -29,12 +28,19 @@ public:
     UPROPERTY(EditAnywhere)
     class UStaticMeshComponent* MeshComponent;
 
-    const static float DefaultMoveSpeed;
     UPROPERTY(EditAnywhere)
-    float MoveSpeed;
+    float MoveSpeed = 800.f;
+    
+    void GetDamage(int damage);
+protected:
+    int power;
 
+    virtual void MoveTick(float DeltaTime);
+
+    FVector dir;
+    
     UFUNCTION()
-    void OnBulletOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+    void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
                          UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
                          const FHitResult& sweepResult);
 };

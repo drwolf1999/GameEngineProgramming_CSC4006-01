@@ -1,19 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "kdy_2018112051/Public/Util/ObjectPooler.h"
+
+#include "Enemy/Enemy3.h"
 
 // Sets default values
-AObjectPooler::AObjectPooler() {
+AEnemy3::AEnemy3() {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned
-void AObjectPooler::BeginPlay() {
+void AEnemy3::BeginPlay() {
     Super::BeginPlay();
+    this->power = 30;
 }
 
 // Called every frame
-void AObjectPooler::Tick(float DeltaTime) {
+void AEnemy3::Tick(float DeltaTime) {
     Super::Tick(DeltaTime);
+}
+
+void AEnemy3::MoveTick(float DeltaTime) {
+    AEnemy::MoveTick(DeltaTime);
 }

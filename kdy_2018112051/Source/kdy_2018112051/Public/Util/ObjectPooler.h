@@ -7,21 +7,22 @@
 #include "ObjectPooler.generated.h"
 
 UCLASS()
+
 class KDY_2018112051_API AObjectPooler : public AActor {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AObjectPooler();
+    // Sets default values for this actor's properties
+    AObjectPooler();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+    // Called every frame
+    void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	int Size;
+    UPROPERTY(EditAnywhere)
+    int Size;
 };

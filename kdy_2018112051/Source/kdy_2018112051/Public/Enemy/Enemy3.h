@@ -3,26 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Enemy.h"
 #include "GameFramework/Actor.h"
-#include "EnemyFactory.generated.h"
+#include "Enemy3.generated.h"
 
 UCLASS()
-
-class KDY_2018112051_API AEnemyFactory : public AActor {
+class KDY_2018112051_API AEnemy3 : public AEnemy {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    AEnemyFactory();
+    AEnemy3();
 
 protected:
     // Called when the game starts or when spawned
-    void BeginPlay() override;
+    virtual void BeginPlay() override;
 
 public:
     // Called every frame
-    void Tick(float DeltaTime) override;
+    virtual void Tick(float DeltaTime) override;
 
-    UPROPERTY(EditAnywhere)
-    TArray<TSubclassOf<class AEnemy>> Enemy;
+protected:
+    void MoveTick(float DeltaTime) override;
 };

@@ -10,8 +10,6 @@
  * 
  */
 UCLASS()
-class KDY_2018112051_API AKDYGameModeBase : public AGameModeBase
-{
-	GENERATED_BODY()
-	
+class KDY_2018112051_API AKDYGameModeBase : public AGameModeBase {
+    GENERATED_BODY()
 };
