@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-#include "EnemyFactory.h"
+#include "Enemy/EnemyFactory.h"
 
 // Sets default values
 AMapGenerator::AMapGenerator() {
