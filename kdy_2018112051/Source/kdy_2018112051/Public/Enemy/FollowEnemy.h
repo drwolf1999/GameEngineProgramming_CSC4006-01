@@ -5,25 +5,25 @@
 #include "CoreMinimal.h"
 #include "Enemy.h"
 #include "GameFramework/Actor.h"
-#include "Enemy1.generated.h"
+#include "FollowEnemy.generated.h"
 
 UCLASS()
-
-class KDY_2018112051_API AEnemy1 : public AEnemy {
+class KDY_2018112051_API AFollowEnemy : public AEnemy {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    AEnemy1();
+    AFollowEnemy();
 
 protected:
     // Called when the game starts or when spawned
-    void BeginPlay() override;
+    virtual void BeginPlay() override;
 
 public:
     // Called every frame
-    void Tick(float DeltaTime) override;
+    virtual void Tick(float DeltaTime) override;
 
 protected:
     void MoveTick(float DeltaTime) override;
+	virtual void Die() override;
 };

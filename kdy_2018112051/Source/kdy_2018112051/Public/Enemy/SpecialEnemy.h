@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "Enemy.h"
 #include "GameFramework/Actor.h"
-#include "Enemy4.generated.h"
+#include "SpecialEnemy.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AEnemy4 : public AEnemy
+class KDY_2018112051_API ASpecialEnemy : public AEnemy
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AEnemy4();
+	ASpecialEnemy();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,4 +26,5 @@ public:
 
 protected:
     void MoveTick(float DeltaTime) override;
+	virtual void Die() override;
 };

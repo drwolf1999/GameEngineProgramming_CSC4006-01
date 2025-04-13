@@ -8,11 +8,10 @@
 #include "PowerItem.generated.h"
 
 UCLASS()
-class KDY_2018112051_API APowerItem : public AItem
-{
+class KDY_2018112051_API APowerItem : public AItem {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APowerItem();
 
@@ -20,8 +19,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void OnPlayerOverlap(APlayerPawn* player) override;
 };

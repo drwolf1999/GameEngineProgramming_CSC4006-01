@@ -5,24 +5,25 @@
 #include "CoreMinimal.h"
 #include "Enemy.h"
 #include "GameFramework/Actor.h"
-#include "Enemy3.generated.h"
+#include "MovingEnemy.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AEnemy3 : public AEnemy {
+class KDY_2018112051_API AMovingEnemy : public AEnemy {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    AEnemy3();
+    AMovingEnemy();
 
 protected:
     // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
+    void BeginPlay() override;
 
 public:
     // Called every frame
-    virtual void Tick(float DeltaTime) override;
+    void Tick(float DeltaTime) override;
 
 protected:
     void MoveTick(float DeltaTime) override;
+	virtual void Die() override;
 };

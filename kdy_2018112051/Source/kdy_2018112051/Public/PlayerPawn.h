@@ -43,18 +43,23 @@ public:
     void GainPower(float p);
     void LosePower(float p);
 
+	const static int MaxHp;
+	const static int MaxPower;
+	const static int MaxBullet;
+	const static int MaxSkill;
+
 private:
     ///////////
     /// power
     ///////////
-    const static float MaxPower;
-    float power;
+	int hp;
+    int power;
 
     ///////////
     /// move
     ///////////
-    const static float DefaultMoveSpeed;
-    const static float RunMoveSpeed;
+	const static float DefaultMoveSpeed;
+	const static float RunMoveSpeed;
     UPROPERTY(EditAnywhere)
     float speed;
     void MoveTick(float h, float v, float DeltaTime);
@@ -67,6 +72,9 @@ private:
     void MoveHorizontal(float h);
     void MoveVertical(float v);
 
-    int bulletCount;
+    int bullet;
     void Fire();
+
+	int skill;
+	void SKill();
 };

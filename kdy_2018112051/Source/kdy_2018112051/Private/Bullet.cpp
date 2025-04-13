@@ -19,7 +19,7 @@ ABullet::ABullet() {
     SetRootComponent(BoxComponent);
     BoxComponent->SetBoxExtent(FVector(50.f, 50.f, 50.f));
     // Bullet resizing
-    BoxComponent->SetWorldScale3D(FVector(0.75f, 0.25f, 1.f));
+    BoxComponent->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
     BoxComponent->SetCollisionProfileName(TEXT("Bullet"));
 
     // MeshComponent
