@@ -23,8 +23,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	FString TextValue;
 
-    // UPROPERTY(EditAnywhere)
-    // FLinearColor Color;
+    UPROPERTY(EditAnywhere)
+    FLinearColor Color;
 
 	void Init();
 };

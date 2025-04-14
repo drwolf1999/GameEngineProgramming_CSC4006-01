@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <string>
 #include "CoreMinimal.h"
 #include "Slot.h"
 #include "Blueprint/UserWidget.h"

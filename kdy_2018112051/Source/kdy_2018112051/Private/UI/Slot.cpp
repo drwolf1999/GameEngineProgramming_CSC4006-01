@@ -8,6 +8,6 @@
 void USlot::Init() {
 	if (Text) {
 		Text->SetText(FText::FromString(TextValue));
-	    // Text->SetColorAndOpacity(Color);
+	    Text->SetColorAndOpacity(FSlateColor(Color));
 	}
 }

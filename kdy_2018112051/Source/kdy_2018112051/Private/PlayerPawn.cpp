@@ -89,14 +89,14 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent *PlayerInputComponen
 ///////////
 /// HP
 ///////////
-void APlayerPawn::Heal(int h) {
-    hp = hp + h > MaxHp ? MaxHp : hp + h;
+void APlayerPawn::Heal(int _h) {
+    hp = hp + _h > MaxHp ? MaxHp : hp + _h;
 
     AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
 }
 
-void APlayerPawn::GetDamage(int h) {
-    hp = hp - h < 0 ? 0 : hp - h;
+void APlayerPawn::GetDamage(int _h) {
+    hp = hp - _h < 0 ? 0 : hp - _h;
 
     AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
 
@@ -161,8 +161,8 @@ void APlayerPawn::Walk() { this->speed = DefaultMoveSpeed; }
 
 void APlayerPawn::Run() { this->speed = RunMoveSpeed; }
 
-void APlayerPawn::EarnBullet(int bullet) {
-    this->bullet += bullet;
+void APlayerPawn::EarnBullet(int _bullet) {
+    this->bullet += _bullet;
     if (this->bullet > APlayerPawn::MaxBullet) { this->bullet = APlayerPawn::MaxBullet; }
 
     AKDYGameModeBase::instance->MainUI()->RefreshBullet(this->bullet);
