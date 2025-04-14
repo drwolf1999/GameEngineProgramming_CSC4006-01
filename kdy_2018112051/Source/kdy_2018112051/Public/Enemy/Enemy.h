@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <typeindex>
+#include <string>
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Enemy.generated.h"
@@ -50,11 +51,12 @@ protected:
 	virtual void Die();
 
 public:
-	static int GetTotalCount(std::type_index);
-	static int GetCount(std::type_index);
-	static void Create(std::type_index);
-	static void Delete(std::type_index);
+    static void Reload();
+	static int GetTotalCount(std::string);
+	static int GetCount(std::string);
+	static void Create(std::string);
+	static void Delete(std::string);
 protected:
-	static std::unordered_map<std::type_index, int> TypeTotalCount;
-	static std::unordered_map<std::type_index, int> TypeCount;
+	static std::unordered_map<std::string, int> TypeTotalCount;
+	static std::unordered_map<std::string, int> TypeCount;
 };

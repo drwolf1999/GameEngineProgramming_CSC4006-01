@@ -23,6 +23,8 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    const static std::string KEY;
+
 protected:
     void MoveTick(float DeltaTime) override;
 	virtual void Die() override;

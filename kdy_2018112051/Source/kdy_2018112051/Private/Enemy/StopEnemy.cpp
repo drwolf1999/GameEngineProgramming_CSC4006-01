@@ -5,6 +5,7 @@
 
 #include "KDYGameModeBase.h"
 #include "UI/MainWidget.h"
+#include <typeinfo>
 
 // Sets default values
 AStopEnemy::AStopEnemy() {
@@ -18,13 +19,13 @@ void AStopEnemy::BeginPlay() {
 	
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
 		if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
-			AEnemy::Create(typeid(AStopEnemy));
+			AEnemy::Create(AStopEnemy::KEY);
 			this->power = 10;
 			AKDYGameModeBase::instance->MainUI()->RefreshYellow();
-		} else {
+		}/* else {
 			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
 			GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-		}
+		}*/
 	});
 }
 
@@ -36,8 +37,9 @@ void AStopEnemy::Tick(float DeltaTime) {
 void AStopEnemy::MoveTick(float DeltaTime) {
 }
 
+const std::string AStopEnemy::KEY = "AStopEnemy";
 void AStopEnemy::Die() {
-	Delete(typeid(AStopEnemy));
+	Delete(AStopEnemy::KEY);
 	AKDYGameModeBase::instance->MainUI()->RefreshYellow();
 	Super::Die();
 }

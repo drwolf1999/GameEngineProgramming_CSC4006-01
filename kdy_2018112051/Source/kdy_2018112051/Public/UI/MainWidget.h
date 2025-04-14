@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <typeindex>
-
 #include "CoreMinimal.h"
 #include "Slot.h"
 #include "Blueprint/UserWidget.h"
@@ -31,7 +29,7 @@ class KDY_2018112051_API UMainWidget : public UUserWidget {
 	UPROPERTY(EditAnywhere, meta=(BindWidget))
 	USlot* Custom;
 
-	FText EnemyText(std::type_index);
+	FText EnemyText(std::string);
 
 	//////////////
 	/// RIGHT

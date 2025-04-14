@@ -22,6 +22,7 @@ protected:
 public:
     // Called every frame
     void Tick(float DeltaTime) override;
+    const static std::string KEY;
 
 protected:
     void MoveTick(float DeltaTime) override;

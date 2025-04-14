@@ -24,42 +24,46 @@ public:
     void Tick(float DeltaTime) override;
 
     // Called to bind functionality to input
-    void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
     UPROPERTY(EditAnywhere)
-    class UBoxComponent* BoxComponent;
+    class UBoxComponent *BoxComponent;
 
     UPROPERTY(EditAnywhere)
-    class UStaticMeshComponent* MeshComponent;
+    class UStaticMeshComponent *MeshComponent;
 
     // bullet
     UPROPERTY(EditAnywhere)
-    class UArrowComponent* FirePosition;
+    class UArrowComponent *FirePosition;
     UPROPERTY(EditAnywhere)
-    class UStaticMeshComponent* SubMeshComponent;
+    class UStaticMeshComponent *SubMeshComponent;
     UPROPERTY(EditAnywhere)
     TSubclassOf<class ABullet> BulletFactory;
 
-    void GainPower(float p);
-    void LosePower(float p);
+    void Heal(int h);
+    void GetDamage(int h);
+    void GainPower(int p);
+    void LosePower(int p);
 
-	const static int MaxHp;
-	const static int MaxPower;
-	const static int MaxBullet;
-	const static int MaxSkill;
+    const static int MaxHp;
+    const static int MaxPower;
+    const static int MaxBullet;
+    const static int MaxSkill;
+
+    void EarnBullet(int);
 
 private:
     ///////////
     /// power
     ///////////
-	int hp;
+    int hp;
     int power;
 
     ///////////
     /// move
     ///////////
-	const static float DefaultMoveSpeed;
-	const static float RunMoveSpeed;
+    const static float DefaultMoveSpeed;
+    const static float RunMoveSpeed;
     UPROPERTY(EditAnywhere)
     float speed;
     void MoveTick(float h, float v, float DeltaTime);
@@ -75,6 +79,6 @@ private:
     int bullet;
     void Fire();
 
-	int skill;
-	void SKill();
+    int skill;
+    void SKill();
 };

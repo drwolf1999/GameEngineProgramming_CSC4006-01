@@ -11,7 +11,7 @@
 #include "Enemy/SpecialEnemy.h"
 #include "Enemy/StopEnemy.h"
 
-FText UMainWidget::EnemyText(std::type_index t) {
+FText UMainWidget::EnemyText(std::string t) {
 	return FText::FromString(FString::Printf(TEXT("%d / %d"), AEnemy::GetCount(t), AEnemy::GetTotalCount(t)));
 }
 
@@ -20,19 +20,19 @@ FText UMainWidget::PlayerText(int v, int max) {
 }
 
 void UMainWidget::RefreshRed() {
-	Red->Data->SetText(EnemyText(typeid(AFollowEnemy)));
+	Red->Data->SetText(EnemyText(AFollowEnemy::KEY));
 }
 
 void UMainWidget::RefreshOrange() {
-	Orange->Data->SetText(EnemyText(typeid(AMovingEnemy)));
+	Orange->Data->SetText(EnemyText(AMovingEnemy::KEY));
 }
 
 void UMainWidget::RefreshYellow() {
-	Yellow->Data->SetText(EnemyText(typeid(AStopEnemy)));
+	Yellow->Data->SetText(EnemyText(AStopEnemy::KEY));
 }
 
 void UMainWidget::RefreshCustom() {
-	Custom->Data->SetText(EnemyText(typeid(ASpecialEnemy)));
+	Custom->Data->SetText(EnemyText(ASpecialEnemy::KEY));
 }
 
 void UMainWidget::RefreshHP(int hp) {

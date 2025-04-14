@@ -19,149 +19,165 @@ const float APlayerPawn::RunMoveSpeed = 1000.f;
 
 // Sets default values
 APlayerPawn::APlayerPawn() {
-	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+    // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
 
-	// BoxComponent
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	SetRootComponent(BoxComponent);
-	BoxComponent->SetBoxExtent(FVector(50.f, 50.f, 50.f));
+    // BoxComponent
+    BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+    SetRootComponent(BoxComponent);
+    BoxComponent->SetBoxExtent(FVector(50.f, 50.f, 50.f));
 
-	BoxComponent->SetCollisionProfileName(TEXT("Player"));
+    BoxComponent->SetCollisionProfileName(TEXT("Player"));
 
-	// MeshComponent
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-	MeshComponent->SetupAttachment(BoxComponent);
+    // MeshComponent
+    MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
+    MeshComponent->SetupAttachment(BoxComponent);
 
-	// ArrowComponent
-	FirePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("FirePosition"));
-	FirePosition->SetupAttachment(BoxComponent);
-	// MeshComponent
-	SubMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SubMeshComponent"));
-	SubMeshComponent->SetupAttachment(FirePosition);
+    // ArrowComponent
+    FirePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("FirePosition"));
+    FirePosition->SetupAttachment(BoxComponent);
+    // MeshComponent
+    SubMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SubMeshComponent"));
+    SubMeshComponent->SetupAttachment(FirePosition);
 
-	// Default Variable Setting
-	hp = MaxHp;
-	power = MaxPower;
-	speed = DefaultMoveSpeed;
-	bullet = MaxBullet;
-	skill = MaxSkill;
+    // Default Variable Setting
+    hp = MaxHp;
+    power = MaxPower;
+    speed = DefaultMoveSpeed;
+    bullet = MaxBullet;
+    skill = MaxSkill;
 }
 
 // Called when the game starts or when spawned
 void APlayerPawn::BeginPlay() {
-	Super::BeginPlay();
+    Super::BeginPlay();
 
-	// GameMode 초기화될 때까지 기다리기
-	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
-		if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
-			AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
-			AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
-			AKDYGameModeBase::instance->MainUI()->RefreshBullet(bullet);
-			AKDYGameModeBase::instance->MainUI()->RefreshSkill(skill);
-		} else {
-			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
-			GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-		}
-	});
+    // GameMode 초기화될 때까지 기다리기
+    GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
+        if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
+            AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
+            AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
+            AKDYGameModeBase::instance->MainUI()->RefreshBullet(bullet);
+            AKDYGameModeBase::instance->MainUI()->RefreshSkill(skill);
+        } else {
+            // 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
+            GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
+        }
+    });
 }
 
 // Called every frame
 void APlayerPawn::Tick(float DeltaTime) {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
-	MoveTick(h, v, DeltaTime);
-	RotationTick(h, v, DeltaTime);
+    MoveTick(h, v, DeltaTime);
+    RotationTick(h, v, DeltaTime);
 }
 
 // Called to bind functionality to input
-void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+void APlayerPawn::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) {
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("Horizontal", this, &APlayerPawn::MoveHorizontal);
-	PlayerInputComponent->BindAxis("Vertical", this, &APlayerPawn::MoveVertical);
-	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &APlayerPawn::Run);
-	PlayerInputComponent->BindAction("Run", IE_Released, this, &APlayerPawn::Walk);
+    PlayerInputComponent->BindAxis("Horizontal", this, &APlayerPawn::MoveHorizontal);
+    PlayerInputComponent->BindAxis("Vertical", this, &APlayerPawn::MoveVertical);
+    PlayerInputComponent->BindAction("Run", IE_Pressed, this, &APlayerPawn::Run);
+    PlayerInputComponent->BindAction("Run", IE_Released, this, &APlayerPawn::Walk);
 
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPawn::Fire);
+    PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPawn::Fire);
 }
+
+///////////
+/// HP
+///////////
+void APlayerPawn::Heal(int h) {
+    hp = hp + h > MaxHp ? MaxHp : hp + h;
+
+    AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
+}
+
+void APlayerPawn::GetDamage(int h) {
+    hp = hp - h < 0 ? 0 : hp - h;
+
+    AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
+
+    if (hp == 0) Destroy();
+}
+
 
 ///////////
 /// power
 ///////////
-void APlayerPawn::GainPower(float p) {
-	// check available
-	power = power + p > MaxPower ? MaxPower : power + p;
+void APlayerPawn::GainPower(int p) {
+    // check available
+    power = power + p > MaxPower ? MaxPower : power + p;
+    AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
 }
 
-void APlayerPawn::LosePower(float p) {
-	// check available
-	power = power - p < 0 ? 0 : power - p;
-
-	if (power == 0) Destroy();
+void APlayerPawn::LosePower(int p) {
+    // check available
+    power = power - p < 0 ? 0 : power - p;
+    AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
 }
 
 ///////////
 /// move
 ///////////
 void APlayerPawn::MoveTick(float _h, float _v, float DeltaTime) {
-	auto dir = FVector(0, _h, _v);
-	if (dir.IsNearlyZero()) {
-		return;
-	}
+    auto dir = FVector(0, _h, _v);
+    if (dir.IsNearlyZero()) { return; }
 
-	dir.Normalize();
+    dir.Normalize();
 
-	FVector newLoc = GetActorLocation() + dir * speed * DeltaTime;
-	FHitResult hit;
-	if (!SetActorLocation(newLoc, true, &hit) && hit.IsValidBlockingHit()) {
-		if (_h * _h * _v * _v > 0.0001) {
-			MoveTick(_h, 0, DeltaTime);
-			MoveTick(0, _v, DeltaTime);
-		}
+    FVector newLoc = GetActorLocation() + dir * speed * DeltaTime;
+    FHitResult hit;
+    if (!SetActorLocation(newLoc, true, &hit) && hit.IsValidBlockingHit()) {
+        if (_h * _h * _v * _v > 0.0001) {
+            MoveTick(_h, 0, DeltaTime);
+            MoveTick(0, _v, DeltaTime);
+        }
 
-		UE_LOG(LogTemp, Warning, TEXT("hit %f %f"), _h, _v);
-	}
+        UE_LOG(LogTemp, Warning, TEXT("hit %f %f"), _h, _v);
+    }
 }
 
 void APlayerPawn::RotationTick(float _h, float _v, float DeltaTime) {
-	auto dir = FVector(0, _h, _v);
-	if (dir.IsNearlyZero()) {
-		return;
-	}
+    auto dir = FVector(0, _h, _v);
+    if (dir.IsNearlyZero()) { return; }
 
-	dir.Normalize();
-	float pitchRad = FMath::Atan2(dir.Y, dir.Z); // ZY 평면 각도
-	float pitchDeg = FMath::RadiansToDegrees(pitchRad); // Degree 변환
-	pitchDeg = FMath::Fmod(pitchDeg + 360.f, 360.f); // 0~360 범위로 정리
+    dir.Normalize();
+    float pitchRad = FMath::Atan2(dir.Y, dir.Z);        // ZY 평면 각도
+    float pitchDeg = FMath::RadiansToDegrees(pitchRad); // Degree 변환
+    pitchDeg = FMath::Fmod(pitchDeg + 360.f, 360.f);    // 0~360 범위로 정리
 
-	SetActorRotation(FRotator(0, 0, pitchDeg)); // X(Pitch)만 회전
+    SetActorRotation(FRotator(0, 0, pitchDeg)); // X(Pitch)만 회전
 }
 
 
-void APlayerPawn::MoveHorizontal(float value) {
-	this->h = value;
-}
+void APlayerPawn::MoveHorizontal(float value) { this->h = value; }
 
-void APlayerPawn::MoveVertical(float value) {
-	this->v = value;
-}
+void APlayerPawn::MoveVertical(float value) { this->v = value; }
 
-void APlayerPawn::Walk() {
-	this->speed = DefaultMoveSpeed;
-}
+void APlayerPawn::Walk() { this->speed = DefaultMoveSpeed; }
 
-void APlayerPawn::Run() {
-	this->speed = RunMoveSpeed;
+void APlayerPawn::Run() { this->speed = RunMoveSpeed; }
+
+void APlayerPawn::EarnBullet(int bullet) {
+    this->bullet += bullet;
+    if (this->bullet > APlayerPawn::MaxBullet) { this->bullet = APlayerPawn::MaxBullet; }
+
+    AKDYGameModeBase::instance->MainUI()->RefreshBullet(this->bullet);
 }
 
 void APlayerPawn::Fire() {
-	if (bullet == 0) return;
-	bullet--;
-	ABullet* b = GetWorld()->SpawnActor<ABullet>(BulletFactory, FirePosition->GetComponentLocation(),
-	                                             FirePosition->GetComponentRotation());
-	AKDYGameModeBase::instance->MainUI()->RefreshBullet(bullet);
+    if (this->bullet == 0) return;
+    this->bullet--;
+    ABullet *b = GetWorld()->SpawnActor<ABullet>(BulletFactory, FirePosition->GetComponentLocation(),
+                                                 FirePosition->GetComponentRotation());
+    AKDYGameModeBase::instance->MainUI()->RefreshBullet(this->bullet);
 }
 
 void APlayerPawn::SKill() {
+    this->skill--;
+    //
+    AKDYGameModeBase::instance->MainUI()->RefreshBullet(skill);
 }

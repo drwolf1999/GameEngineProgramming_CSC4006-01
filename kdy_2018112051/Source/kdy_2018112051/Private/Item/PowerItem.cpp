@@ -20,5 +20,7 @@ void APowerItem::Tick(float DeltaTime) {
 }
 
 void APowerItem::OnPlayerOverlap(APlayerPawn* player) {
-	Super::OnPlayerOverlap(player);
+    if (player) {
+        player->GainPower(10);
+    }
 }

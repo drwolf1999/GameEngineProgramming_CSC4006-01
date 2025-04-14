@@ -49,7 +49,7 @@ void AEnemy::OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* ot
                             const FHitResult& sweepResult) {
 	APlayerPawn* player = Cast<APlayerPawn>(otherActor);
 	if (player) {
-		player->LosePower(10);
+		player->GetDamage(10);
 	}
 }
 
@@ -57,23 +57,28 @@ void AEnemy::Die() {
 	Destroy();
 }
 
+void AEnemy::Reload() {
+    TypeCount.clear();
+    TypeTotalCount.clear();
+}
 
-std::unordered_map<std::type_index, int> AEnemy::TypeCount = std::unordered_map<std::type_index, int>();
-std::unordered_map<std::type_index, int> AEnemy::TypeTotalCount = std::unordered_map<std::type_index, int>();
 
-int AEnemy::GetTotalCount(std::type_index t) {
+std::unordered_map<std::string, int> AEnemy::TypeCount = std::unordered_map<std::string, int>();
+std::unordered_map<std::string, int> AEnemy::TypeTotalCount = std::unordered_map<std::string, int>();
+
+int AEnemy::GetTotalCount(std::string t) {
 	return TypeTotalCount[t];
 }
 
-int AEnemy::GetCount(std::type_index t) {
+int AEnemy::GetCount(std::string t) {
 	return TypeCount[t];
 }
 
-void AEnemy::Create(std::type_index t) {
+void AEnemy::Create(std::string t) {
 	TypeCount[t]++;
 	TypeTotalCount[t]++;
 }
 
-void AEnemy::Delete(std::type_index t) {
+void AEnemy::Delete(std::string t) {
 	TypeCount[t]--;
 }
