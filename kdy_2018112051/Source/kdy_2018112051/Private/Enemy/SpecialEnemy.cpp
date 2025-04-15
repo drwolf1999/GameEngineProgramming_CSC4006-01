@@ -5,6 +5,7 @@
 
 #include "UI/UIManager.h"
 #include <typeinfo>
+#include <embree2/rtcore_ray.h>
 
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -84,9 +85,9 @@ void ASpecialEnemy::Deal() {
 		return;
 	}
 
-	const float Distance = FVector::Dist(GetActorLocation(), player->GetActorLocation());
+	const FVector d = player->GetActorLocation() - GetActorLocation();
 
-	if (Distance <= 150.0f) {
+	if (d.Y * d.Y + d.Z * d.Z <= 150.0f * 150.f) {
 		float currentTime = GetWorld()->GetTimeSeconds();
 		if (currentTime - LastDamageTime >= DamageInterval) {
 			player->GetDamage(10);
