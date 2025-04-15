@@ -51,15 +51,8 @@ void UMainWidget::RefreshSkill(int skill) {
 	Skill->Data->SetText(PlayerText(skill, APlayerPawn::MaxSkill));
 }
 
-void UMainWidget::Init() {
-	USlot* slot[] = {
-		Red, Orange, Yellow, Custom,
-		HP, Power, Bullet, Skill
-	};
-
-	for (USlot* s : slot) {
-		s->Init();
-	}
+void UMainWidget::NativeConstruct() {
+	Super::NativeConstruct();
 }
 
 

@@ -6,6 +6,7 @@
 #include "EngineUtils.h"
 #include "PlayerPawn.h"
 #include "Components/SphereComponent.h"
+#include "UI/UIManager.h"
 
 // Sets default values
 AEnemy::AEnemy() {
@@ -81,4 +82,12 @@ void AEnemy::Create(std::string t) {
 
 void AEnemy::Delete(std::string t) {
 	TypeCount[t]--;
+
+	int c = 0;
+	for (auto it : TypeCount) {
+		c += it.second;
+	}
+	if (c == 0) {
+		AUIManager::Instance()->OpenWinUI();
+	}
 }

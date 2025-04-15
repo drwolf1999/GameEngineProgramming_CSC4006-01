@@ -3,7 +3,7 @@
 
 #include "Enemy/SpecialEnemy.h"
 
-#include "KDYGameModeBase.h"
+#include "UI/UIManager.h"
 #include <typeinfo>
 #include "UI/MainWidget.h"
 
@@ -21,14 +21,14 @@ void ASpecialEnemy::BeginPlay()
 	Super::BeginPlay();
     
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
-	if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
+	if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
 		AEnemy::Create(ASpecialEnemy::KEY);
 		this->power = 50;
-		AKDYGameModeBase::instance->MainUI()->RefreshCustom();
-	}/* else {
+		AUIManager::Instance()->MainUI()->RefreshCustom();
+	} else {
 		// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-	}*/
+	}
 });
 }
 
@@ -46,6 +46,6 @@ void ASpecialEnemy::MoveTick(float DeltaTime) {
 const std::string ASpecialEnemy::KEY = "ASpecialEnemy";
 void ASpecialEnemy::Die() {
 	Delete(ASpecialEnemy::KEY);
-	AKDYGameModeBase::instance->MainUI()->RefreshCustom();
+	AUIManager::Instance()->MainUI()->RefreshCustom();
 	Super::Die();
 }

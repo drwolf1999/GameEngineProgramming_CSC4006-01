@@ -3,28 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "KDYGameInstance.h"
 #include "Blueprint/UserWidget.h"
-#include "Slot.generated.h"
+#include "Components/Button.h"
+#include "GameOverUI.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class KDY_2018112051_API USlot : public UUserWidget {
+class KDY_2018112051_API UGameOverUI : public UUserWidget
+{
 	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, meta=(BindWidget))
+	UButton* RestartButton;
+
+	UPROPERTY(EditAnywhere, meta=(BindWidget))
+	UButton* QuitButton;
+
+	UFUNCTION()
+	void Restart();
+
+	UFUNCTION()
+	void Quit();
 
 public:
-	UPROPERTY(EditAnywhere, meta=(BindWidget))
-	class UTextBlock* Text;
-
-	UPROPERTY(EditAnywhere, meta=(BindWidget))
-	class UTextBlock* Data;
-
-	UPROPERTY(EditAnywhere)
-	FString TextValue;
-
-    UPROPERTY(EditAnywhere)
-    FLinearColor Color;
-	
 	virtual void NativeConstruct() override;
 };

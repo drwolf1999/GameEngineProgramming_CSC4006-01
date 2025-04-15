@@ -3,7 +3,7 @@
 
 #include "Enemy/StopEnemy.h"
 
-#include "KDYGameModeBase.h"
+#include "UI/UIManager.h"
 #include "UI/MainWidget.h"
 #include <typeinfo>
 
@@ -18,14 +18,14 @@ void AStopEnemy::BeginPlay() {
 	Super::BeginPlay();
 	
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
-		if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
+		if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
 			AEnemy::Create(AStopEnemy::KEY);
 			this->power = 10;
-			AKDYGameModeBase::instance->MainUI()->RefreshYellow();
-		}/* else {
+			AUIManager::Instance()->MainUI()->RefreshYellow();
+		} else {
 			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
 			GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-		}*/
+		}
 	});
 }
 
@@ -40,6 +40,6 @@ void AStopEnemy::MoveTick(float DeltaTime) {
 const std::string AStopEnemy::KEY = "AStopEnemy";
 void AStopEnemy::Die() {
 	Delete(AStopEnemy::KEY);
-	AKDYGameModeBase::instance->MainUI()->RefreshYellow();
+	AUIManager::Instance()->MainUI()->RefreshYellow();
 	Super::Die();
 }

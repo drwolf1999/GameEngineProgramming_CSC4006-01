@@ -3,7 +3,7 @@
 
 #include "Enemy/FollowEnemy.h"
 
-#include "KDYGameModeBase.h"
+#include "UI/UIManager.h"
 #include "UI/MainWidget.h"
 #include <typeinfo>
 
@@ -16,14 +16,14 @@ AFollowEnemy::AFollowEnemy() {
 void AFollowEnemy::BeginPlay() {
     Super::BeginPlay();
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
-		if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
+		if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
 			AEnemy::Create(AFollowEnemy::KEY);
 			this->power = 30;
-			AKDYGameModeBase::instance->MainUI()->RefreshRed();
-		} /*else {
+			AUIManager::Instance()->MainUI()->RefreshRed();
+		} else {
 			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
 			GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-		}*/
+		}
 	});
 }
 
@@ -40,6 +40,6 @@ const std::string AFollowEnemy::KEY = "AFollowEnemy";
 
 void AFollowEnemy::Die() {
 	Delete(AFollowEnemy::KEY);
-	AKDYGameModeBase::instance->MainUI()->RefreshRed();
+	AUIManager::Instance()->MainUI()->RefreshRed();
 	Super::Die();
 }

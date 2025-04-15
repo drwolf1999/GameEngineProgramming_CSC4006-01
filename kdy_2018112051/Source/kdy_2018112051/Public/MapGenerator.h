@@ -27,13 +27,19 @@ public:
     void Tick(float DeltaTime) override;
 
     UPROPERTY(EditAnywhere)
-    int Level = 0;
-
-    UPROPERTY(EditAnywhere)
     TSubclassOf<class AWall> WallFactory;
 
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class AEnemy>> EnemyList;
+	
     UPROPERTY(EditAnywhere)
     TSubclassOf<class AEnemyFactory> EnemyFactoryFactory;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class AItem>> ItemList;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class ATrap>> TrapList;
 
     float TileSize = 100.0f;
 

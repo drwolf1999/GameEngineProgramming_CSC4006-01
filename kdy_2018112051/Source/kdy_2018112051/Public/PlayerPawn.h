@@ -64,8 +64,8 @@ private:
     ///////////
     const static float DefaultMoveSpeed;
     const static float RunMoveSpeed;
-    UPROPERTY(EditAnywhere)
-    float speed;
+    bool isWalk;
+	bool isHide;
     void MoveTick(float h, float v, float DeltaTime);
     void RotationTick(float h, float v, float DeltaTime);
     void Walk();

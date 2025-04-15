@@ -4,7 +4,7 @@
 #include "kdy_2018112051/Public/PlayerPawn.h"
 
 #include "Bullet.h"
-#include "KDYGameModeBase.h"
+#include "UI/UIManager.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -43,7 +43,6 @@ APlayerPawn::APlayerPawn() {
     // Default Variable Setting
     hp = MaxHp;
     power = MaxPower;
-    speed = DefaultMoveSpeed;
     bullet = MaxBullet;
     skill = MaxSkill;
 }
@@ -54,11 +53,13 @@ void APlayerPawn::BeginPlay() {
 
     // GameMode 초기화될 때까지 기다리기
     GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
-        if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
-            AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
-            AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
-            AKDYGameModeBase::instance->MainUI()->RefreshBullet(bullet);
-            AKDYGameModeBase::instance->MainUI()->RefreshSkill(skill);
+        if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
+        	isWalk = true;
+        	isHide = false;
+            AUIManager::Instance()->MainUI()->RefreshHP(hp);
+            AUIManager::Instance()->MainUI()->RefreshPower(power);
+            AUIManager::Instance()->MainUI()->RefreshBullet(bullet);
+            AUIManager::Instance()->MainUI()->RefreshSkill(skill);
         } else {
             // 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
             GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
@@ -80,10 +81,12 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent *PlayerInputComponen
 
     PlayerInputComponent->BindAxis("Horizontal", this, &APlayerPawn::MoveHorizontal);
     PlayerInputComponent->BindAxis("Vertical", this, &APlayerPawn::MoveVertical);
+	
     PlayerInputComponent->BindAction("Run", IE_Pressed, this, &APlayerPawn::Run);
     PlayerInputComponent->BindAction("Run", IE_Released, this, &APlayerPawn::Walk);
 
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPawn::Fire);
+	PlayerInputComponent->BindAction("Skill", IE_Pressed, this, &APlayerPawn::SKill);
 }
 
 ///////////
@@ -92,15 +95,20 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent *PlayerInputComponen
 void APlayerPawn::Heal(int _h) {
     hp = hp + _h > MaxHp ? MaxHp : hp + _h;
 
-    AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
+    AUIManager::Instance()->MainUI()->RefreshHP(hp);
 }
 
 void APlayerPawn::GetDamage(int _h) {
     hp = hp - _h < 0 ? 0 : hp - _h;
 
-    AKDYGameModeBase::instance->MainUI()->RefreshHP(hp);
+	UE_LOG(LogTemp, Display, TEXT("PlayerGetDamage: Before"))
+    AUIManager::Instance()->MainUI()->RefreshHP(hp);
 
-    if (hp == 0) Destroy();
+	UE_LOG(LogTemp, Display, TEXT("PlayerGetDamage: AfterRefresh"))
+    if (hp == 0) {
+	    AUIManager::Instance()->OpenGameOverUI();
+    	Destroy();
+    }
 }
 
 
@@ -110,13 +118,13 @@ void APlayerPawn::GetDamage(int _h) {
 void APlayerPawn::GainPower(int p) {
     // check available
     power = power + p > MaxPower ? MaxPower : power + p;
-    AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
+    AUIManager::Instance()->MainUI()->RefreshPower(power);
 }
 
 void APlayerPawn::LosePower(int p) {
     // check available
     power = power - p < 0 ? 0 : power - p;
-    AKDYGameModeBase::instance->MainUI()->RefreshPower(power);
+    AUIManager::Instance()->MainUI()->RefreshPower(power);
 }
 
 ///////////
@@ -128,15 +136,14 @@ void APlayerPawn::MoveTick(float _h, float _v, float DeltaTime) {
 
     dir.Normalize();
 
-    FVector newLoc = GetActorLocation() + dir * speed * DeltaTime;
+	float speed = (isWalk ? DefaultMoveSpeed : RunMoveSpeed) * 1;
+    FVector newLoc = GetActorLocation() + speed * dir * DeltaTime;
     FHitResult hit;
     if (!SetActorLocation(newLoc, true, &hit) && hit.IsValidBlockingHit()) {
         if (_h * _h * _v * _v > 0.0001) {
             MoveTick(_h, 0, DeltaTime);
             MoveTick(0, _v, DeltaTime);
         }
-
-        UE_LOG(LogTemp, Warning, TEXT("hit %f %f"), _h, _v);
     }
 }
 
@@ -157,15 +164,15 @@ void APlayerPawn::MoveHorizontal(float value) { this->h = value; }
 
 void APlayerPawn::MoveVertical(float value) { this->v = value; }
 
-void APlayerPawn::Walk() { this->speed = DefaultMoveSpeed; }
+void APlayerPawn::Walk() { this->isWalk = true; }
 
-void APlayerPawn::Run() { this->speed = RunMoveSpeed; }
+void APlayerPawn::Run() { this->isWalk = false; }
 
 void APlayerPawn::EarnBullet(int _bullet) {
     this->bullet += _bullet;
     if (this->bullet > APlayerPawn::MaxBullet) { this->bullet = APlayerPawn::MaxBullet; }
 
-    AKDYGameModeBase::instance->MainUI()->RefreshBullet(this->bullet);
+    AUIManager::Instance()->MainUI()->RefreshBullet(this->bullet);
 }
 
 void APlayerPawn::Fire() {
@@ -173,11 +180,14 @@ void APlayerPawn::Fire() {
     this->bullet--;
     ABullet *b = GetWorld()->SpawnActor<ABullet>(BulletFactory, FirePosition->GetComponentLocation(),
                                                  FirePosition->GetComponentRotation());
-    AKDYGameModeBase::instance->MainUI()->RefreshBullet(this->bullet);
+    AUIManager::Instance()->MainUI()->RefreshBullet(this->bullet);
 }
 
 void APlayerPawn::SKill() {
+	if (skill <= 0) {
+		return;
+	}
     this->skill--;
     //
-    AKDYGameModeBase::instance->MainUI()->RefreshBullet(skill);
+    AUIManager::Instance()->MainUI()->RefreshSkill(skill);
 }

@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Trap.h"
 #include "GameFramework/Actor.h"
 #include "HideTrap.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AHideTrap : public AActor
+class KDY_2018112051_API AHideTrap : public ATrap
 {
 	GENERATED_BODY()
 	

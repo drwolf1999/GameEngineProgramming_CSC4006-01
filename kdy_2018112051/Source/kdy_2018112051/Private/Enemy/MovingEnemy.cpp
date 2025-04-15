@@ -3,7 +3,7 @@
 
 #include "Enemy/MovingEnemy.h"
 
-#include "KDYGameModeBase.h"
+#include "UI/UIManager.h"
 #include "UI/MainWidget.h"
 #include <typeinfo>
 
@@ -18,16 +18,16 @@ void AMovingEnemy::BeginPlay() {
 	Super::BeginPlay();
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
 	    UE_LOG(LogTemp, Warning, TEXT("AMovingEnemyTick"));
-		if (AKDYGameModeBase::instance && AKDYGameModeBase::instance->IsInitialized) {
+		if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
 			AEnemy::Create(AMovingEnemy::KEY);
 		    UE_LOG(LogTemp, Warning, TEXT("AMovingEnemySpawned %d"), GetTotalCount(AMovingEnemy::KEY));
 		
 this->power = 20;
-			AKDYGameModeBase::instance->MainUI()->RefreshOrange();
-		}/* else {
+			AUIManager::Instance()->MainUI()->RefreshOrange();
+		} else {
 			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
 			GetWorld()->GetTimerManager().SetTimerForNextTick([this]() { this->BeginPlay(); });
-		}*/
+		}
 	});
 }
 
@@ -42,6 +42,6 @@ void AMovingEnemy::MoveTick(float DeltaTime) {
 const std::string AMovingEnemy::KEY = "AMovingEnemy";
 void AMovingEnemy::Die() {
 	Delete(AMovingEnemy::KEY);
-	AKDYGameModeBase::instance->MainUI()->RefreshOrange();
+	AUIManager::Instance()->MainUI()->RefreshOrange();
 	Super::Die();
 }

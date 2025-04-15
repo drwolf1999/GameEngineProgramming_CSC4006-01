@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "Trap.h"
 #include "GameFramework/Actor.h"
-#include "SpeedTrap.generated.h"
+#include "HPTrap.generated.h"
 
 UCLASS()
-class KDY_2018112051_API ASpeedTrap : public ATrap
+class KDY_2018112051_API AHPTrap : public ATrap
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpeedTrap();
+	AHPTrap();
 
 protected:
 	// Called when the game starts or when spawned

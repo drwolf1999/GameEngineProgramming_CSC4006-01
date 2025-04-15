@@ -16,7 +16,7 @@ AItem::AItem() {
 	BoxComponent->SetBoxExtent(FVector(50.f, 50.f, 50.f));
 	// Bullet resizing
 	BoxComponent->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	BoxComponent->SetCollisionProfileName(TEXT("Bullet"));
+	BoxComponent->SetCollisionProfileName(TEXT("Item"));
 
 	// MeshComponent
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));

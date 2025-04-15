@@ -66,5 +66,5 @@ public:
 	void RefreshBullet(int bullet);
 	void RefreshSkill(int skill);
 	
-	void Init();
+	virtual void NativeConstruct() override;
 };

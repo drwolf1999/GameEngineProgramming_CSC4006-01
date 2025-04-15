@@ -3,25 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Trap.h"
 #include "GameFramework/Actor.h"
-#include "SpeedTrap.generated.h"
+#include "Game.generated.h"
 
 UCLASS()
-class KDY_2018112051_API ASpeedTrap : public ATrap
-{
+class KDY_2018112051_API AGame : public AActor {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
-	ASpeedTrap();
+	AGame();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void AllowInput();
+	void BlockInput(TSharedRef<SWidget> widget);
+
+	static AGame* Instance();
+
+private:
+	static AGame* instance; 
+	void Init();
 };
