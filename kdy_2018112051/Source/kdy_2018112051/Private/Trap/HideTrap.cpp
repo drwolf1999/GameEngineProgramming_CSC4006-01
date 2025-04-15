@@ -25,7 +25,6 @@ void AHideTrap::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherA
                              int32 OtherBodyIndex) {
 	APlayerPawn* player = Cast<APlayerPawn>(OtherActor);
 	if (player) {
-		UE_LOG(LogTemp, Display, TEXT("HideOFF"));
 		player->isHide = false;
 	}
 }
@@ -36,6 +35,5 @@ void AHideTrap::OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor*
 	APlayerPawn* player = Cast<APlayerPawn>(otherActor);
 	if (player) {
 		player->isHide = true;
-		UE_LOG(LogTemp, Display, TEXT("HideON"));
 	}
 }

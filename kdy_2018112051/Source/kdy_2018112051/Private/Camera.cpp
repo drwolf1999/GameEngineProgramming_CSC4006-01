@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 
+#include "KDYGameInstance.h"
 #include "Camera/CameraComponent.h"
 
 // Sets default values
@@ -17,6 +18,10 @@ ACamera::ACamera() {
 // Called when the game starts or when spawned
 void ACamera::BeginPlay() {
 	Super::BeginPlay();
+
+	if (UKDYGameInstance::Instance()->GetStage() > 0) {
+		camera->OrthoWidth = 1200.f;
+	}
 }
 
 // Called every frame

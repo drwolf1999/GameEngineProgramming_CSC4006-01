@@ -30,6 +30,6 @@ public:
 	FVector Offset = FVector(-1000.f, 0.f, 0.f);
 
 private:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	class UCameraComponent* camera;
 };

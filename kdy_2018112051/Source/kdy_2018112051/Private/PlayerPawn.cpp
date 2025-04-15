@@ -222,9 +222,7 @@ void APlayerPawn::SKill() {
 	};
 	int32 fireCount = 0;
 
-	GetWorld()->GetTimerManager().SetTimer(
-		SkillHandle,
-		[this, fireCount]() mutable {
+	GetWorld()->GetTimerManager().SetTimer(SkillHandle,[this, fireCount]() mutable {
 			const FVector Origin = FirePosition->GetComponentLocation();
 
 			for (FVector Dir : Directions) {
