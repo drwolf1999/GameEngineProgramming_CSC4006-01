@@ -11,5 +11,5 @@
  */
 UCLASS()
 class KDY_2018112051_API Akdy_2018112051GameModeBase : public AGameModeBase {
-    GENERATED_BODY()
+	GENERATED_BODY()
 };

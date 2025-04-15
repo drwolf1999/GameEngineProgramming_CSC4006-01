@@ -9,23 +9,28 @@
 
 UCLASS()
 class KDY_2018112051_API AFollowEnemy : public AEnemy {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
-    AFollowEnemy();
+	// Sets default values for this actor's properties
+	AFollowEnemy();
 
 protected:
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 public:
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-    const static std::string KEY;
+	const static std::string KEY;
 
 protected:
-    void MoveTick(float DeltaTime) override;
+	virtual void MoveTick(float DeltaTime) override;
+	virtual void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+	                            UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
+	                            const FHitResult& sweepResult) override;
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                          int32 OtherBodyIndex) override;
 	virtual void Die() override;
 };

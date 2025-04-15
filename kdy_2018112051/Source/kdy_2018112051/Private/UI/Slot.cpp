@@ -9,6 +9,6 @@ void USlot::NativeConstruct() {
 	Super::NativeConstruct();
 	if (Text) {
 		Text->SetText(FText::FromString(TextValue));
-	    Text->SetColorAndOpacity(FSlateColor(Color));
+		Text->SetColorAndOpacity(FSlateColor(Color));
 	}
 }

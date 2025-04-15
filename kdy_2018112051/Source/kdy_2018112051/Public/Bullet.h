@@ -9,32 +9,32 @@
 UCLASS()
 
 class KDY_2018112051_API ABullet : public AActor {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
-    ABullet();
+	// Sets default values for this actor's properties
+	ABullet();
 
 protected:
-    // Called when the game starts or when spawned
-    void BeginPlay() override;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 public:
-    // Called every frame
-    void Tick(float DeltaTime) override;
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-    UPROPERTY(EditAnywhere)
-    class UBoxComponent* BoxComponent;
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* BoxComponent;
 
-    UPROPERTY(EditAnywhere)
-    class UStaticMeshComponent* MeshComponent;
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* MeshComponent;
 
-    const static float DefaultMoveSpeed;
-    UPROPERTY(EditAnywhere)
-    float MoveSpeed;
+	const static float DefaultMoveSpeed;
+	UPROPERTY(EditAnywhere)
+	float MoveSpeed;
 
-    UFUNCTION()
-    void OnBulletOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
-                         UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
-                         const FHitResult& sweepResult);
+	UFUNCTION()
+	void OnBulletOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+	                     UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
+	                     const FHitResult& sweepResult);
 };

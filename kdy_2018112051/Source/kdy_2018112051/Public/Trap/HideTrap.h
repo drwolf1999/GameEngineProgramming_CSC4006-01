@@ -8,11 +8,10 @@
 #include "HideTrap.generated.h"
 
 UCLASS()
-class KDY_2018112051_API AHideTrap : public ATrap
-{
+class KDY_2018112051_API AHideTrap : public ATrap {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AHideTrap();
 
@@ -20,8 +19,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
+
+	virtual void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+	                            UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
+	                            const FHitResult& sweepResult) override;
 };

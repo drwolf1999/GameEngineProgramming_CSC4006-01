@@ -7,11 +7,10 @@
 #include "Trap.generated.h"
 
 UCLASS()
-class KDY_2018112051_API ATrap : public AActor
-{
+class KDY_2018112051_API ATrap : public AActor {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ATrap();
 
@@ -19,7 +18,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -29,4 +28,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* MeshComponent;
 
+	UFUNCTION()
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION()
+	virtual void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+	                            UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
+	                            const FHitResult& sweepResult);
 };

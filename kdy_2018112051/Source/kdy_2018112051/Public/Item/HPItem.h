@@ -5,15 +5,15 @@
 #include "Item/Item.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PowerItem.generated.h"
+#include "HPItem.generated.h"
 
 UCLASS()
-class KDY_2018112051_API APowerItem : public AItem {
+class KDY_2018112051_API AHPItem : public AItem {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	APowerItem();
+	AHPItem();
 
 protected:
 	// Called when the game starts or when spawned

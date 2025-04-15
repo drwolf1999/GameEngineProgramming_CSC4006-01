@@ -3,7 +3,7 @@
 #pragma once
 
 #include <unordered_map>
-#include <typeindex>
+#include "PlayerPawn.h"
 #include <string>
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -19,11 +19,11 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 public:
 	// Called every frame
-	void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
 	class USphereComponent* SphereComponent;
@@ -32,30 +32,40 @@ public:
 	class UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(EditAnywhere)
-	float MoveSpeed = 800.f;
+	float MoveSpeed = 650.f;
+
+	bool isBoost;
 
 	void GetDamage(int damage);
 
 protected:
-	int power;
+	int hp;
 
 	virtual void MoveTick(float DeltaTime);
 
 	FVector dir;
 
 	UFUNCTION()
-	void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
-	                    UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
-	                    const FHitResult& sweepResult);
+	virtual void OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
+	                            UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
+	                            const FHitResult& sweepResult);
+
+	UFUNCTION()
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	virtual void Die();
 
+	float overlapTime;
+	APlayerPawn* overlappedPlayer;
+
 public:
-    static void Reload();
+	static void Reload();
 	static int GetTotalCount(std::string);
 	static int GetCount(std::string);
 	static void Create(std::string);
 	static void Delete(std::string);
+
 protected:
 	static std::unordered_map<std::string, int> TypeTotalCount;
 	static std::unordered_map<std::string, int> TypeCount;

@@ -10,8 +10,7 @@
  * 
  */
 UCLASS()
-class KDY_2018112051_API UKDYGameInstance : public UGameInstance
-{
+class KDY_2018112051_API UKDYGameInstance : public UGameInstance {
 	GENERATED_BODY()
 	int stage;
 
@@ -19,7 +18,7 @@ class KDY_2018112051_API UKDYGameInstance : public UGameInstance
 
 public:
 	static UKDYGameInstance* Instance();
-	
+
 	virtual void Init() override;
 
 	int GetStage();

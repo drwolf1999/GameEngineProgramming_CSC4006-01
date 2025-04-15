@@ -27,6 +27,7 @@ AItem::AItem() {
 // Called when the game starts or when spawned
 void AItem::BeginPlay() {
 	Super::BeginPlay();
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AItem::OnItemOverlap);
 }
 
 // Called every frame
@@ -37,6 +38,7 @@ void AItem::Tick(float DeltaTime) {
 void AItem::OnItemOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
                           UPrimitiveComponent* otherComponent, int32 otherBodyIndex, bool bFromSweep,
                           const FHitResult& sweepResult) {
+	UE_LOG(LogTemp, Display, TEXT("item: %s"), *otherActor->GetName())
 	OnPlayerOverlap(Cast<APlayerPawn>(otherActor));
 }
 

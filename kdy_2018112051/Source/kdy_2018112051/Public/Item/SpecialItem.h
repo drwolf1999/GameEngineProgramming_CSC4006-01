@@ -10,8 +10,8 @@
  * 
  */
 UCLASS()
-class KDY_2018112051_API ASpecialItem : public AItem
-{
+class KDY_2018112051_API ASpecialItem : public AItem {
 	GENERATED_BODY()
-	
+
+	virtual void OnPlayerOverlap(APlayerPawn* player) override;
 };

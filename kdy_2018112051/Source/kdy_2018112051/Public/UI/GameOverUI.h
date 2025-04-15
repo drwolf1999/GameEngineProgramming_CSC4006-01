@@ -12,10 +12,9 @@
  * 
  */
 UCLASS()
-class KDY_2018112051_API UGameOverUI : public UUserWidget
-{
+class KDY_2018112051_API UGameOverUI : public UUserWidget {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, meta=(BindWidget))
 	UButton* RestartButton;
 

@@ -9,27 +9,27 @@
 UCLASS()
 
 class KDY_2018112051_API ACamera : public AActor {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
-    ACamera();
+	// Sets default values for this actor's properties
+	ACamera();
 
 protected:
-    // Called when the game starts or when spawned
-    void BeginPlay() override;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 public:
-    // Called every frame
-    void Tick(float DeltaTime) override;
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-    UPROPERTY(EditAnywhere)
-    AActor* Target;
+	UPROPERTY(EditAnywhere)
+	AActor* Target;
 
-    UPROPERTY(EditAnywhere)
-    FVector Offset = FVector(-1000.f, 0.f, 0.f);
+	UPROPERTY(EditAnywhere)
+	FVector Offset = FVector(-1000.f, 0.f, 0.f);
 
 private:
-    UPROPERTY()
-    class UCameraComponent* camera;
+	UPROPERTY()
+	class UCameraComponent* camera;
 };

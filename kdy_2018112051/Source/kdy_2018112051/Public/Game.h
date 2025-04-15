@@ -28,6 +28,6 @@ public:
 	static AGame* Instance();
 
 private:
-	static AGame* instance; 
+	static AGame* instance;
 	void Init();
 };

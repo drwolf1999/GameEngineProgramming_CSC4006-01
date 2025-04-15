@@ -40,6 +40,7 @@ void AGame::BlockInput(TSharedRef<SWidget> widget) {
 }
 
 AGame* AGame::instance = nullptr;
+
 AGame* AGame::Instance() {
 	return instance;
 }

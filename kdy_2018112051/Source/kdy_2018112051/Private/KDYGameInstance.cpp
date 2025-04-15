@@ -4,6 +4,7 @@
 #include "KDYGameInstance.h"
 
 UKDYGameInstance* UKDYGameInstance::instance = nullptr;
+
 UKDYGameInstance* UKDYGameInstance::Instance() {
 	return instance;
 }

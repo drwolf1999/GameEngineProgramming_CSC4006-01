@@ -16,11 +16,11 @@ AStopEnemy::AStopEnemy() {
 // Called when the game starts or when spawned
 void AStopEnemy::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]() {
 		if (AUIManager::Instance() && AUIManager::Instance()->IsInitialized()) {
-			AEnemy::Create(AStopEnemy::KEY);
-			this->power = 10;
+			Create(KEY);
+			this->hp = 10;
 			AUIManager::Instance()->MainUI()->RefreshYellow();
 		} else {
 			// 아직 초기화 안 됐으면 한 틱 뒤에 다시 시도
@@ -38,8 +38,9 @@ void AStopEnemy::MoveTick(float DeltaTime) {
 }
 
 const std::string AStopEnemy::KEY = "AStopEnemy";
+
 void AStopEnemy::Die() {
-	Delete(AStopEnemy::KEY);
+	Delete(KEY);
 	AUIManager::Instance()->MainUI()->RefreshYellow();
 	Super::Die();
 }

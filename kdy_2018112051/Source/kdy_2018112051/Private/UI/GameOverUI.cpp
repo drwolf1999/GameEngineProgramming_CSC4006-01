@@ -20,5 +20,6 @@ void UGameOverUI::Restart() {
 
 void UGameOverUI::Quit() {
 	UKDYGameInstance::Instance()->StageReset();
-	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0),
+	                               EQuitPreference::Quit, false);
 }

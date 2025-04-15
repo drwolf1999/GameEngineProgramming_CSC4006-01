@@ -9,20 +9,20 @@
 UCLASS()
 
 class KDY_2018112051_API AEnemyFactory : public AActor {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
-    AEnemyFactory();
+	// Sets default values for this actor's properties
+	AEnemyFactory();
 
 protected:
-    // Called when the game starts or when spawned
-    void BeginPlay() override;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 public:
-    // Called every frame
-    void Tick(float DeltaTime) override;
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-    UPROPERTY(EditAnywhere)
-    TArray<TSubclassOf<class AEnemy>> Enemy;
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class AEnemy>> Enemy;
 };

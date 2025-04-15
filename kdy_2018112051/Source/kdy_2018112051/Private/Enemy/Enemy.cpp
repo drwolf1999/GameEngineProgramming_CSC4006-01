@@ -29,20 +29,24 @@ void AEnemy::BeginPlay() {
 	Super::BeginPlay();
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnEnemyOverlap);
+	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AEnemy::OnOverlapEnd);
 }
 
 // Called every frame
 void AEnemy::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
+	MoveTick(DeltaTime);
 }
 
 void AEnemy::MoveTick(float DeltaTime) {
 }
 
 void AEnemy::GetDamage(int damage) {
-	power -= damage;
+	hp -= damage;
 
-	if (power <= 0) Die();
+	if (hp <= 0) {
+		Die();
+	}
 }
 
 void AEnemy::OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* otherActor,
@@ -50,7 +54,18 @@ void AEnemy::OnEnemyOverlap(UPrimitiveComponent* overlappedComponent, AActor* ot
                             const FHitResult& sweepResult) {
 	APlayerPawn* player = Cast<APlayerPawn>(otherActor);
 	if (player) {
+		overlapTime = 0;
+		overlappedPlayer = player;
 		player->GetDamage(10);
+	}
+}
+
+void AEnemy::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                          int32 OtherBodyIndex) {
+	APlayerPawn* player = Cast<APlayerPawn>(OtherActor);
+	if (player) {
+		overlappedPlayer = nullptr;
+		overlapTime = 0;
 	}
 }
 
@@ -59,8 +74,8 @@ void AEnemy::Die() {
 }
 
 void AEnemy::Reload() {
-    TypeCount.clear();
-    TypeTotalCount.clear();
+	TypeCount.clear();
+	TypeTotalCount.clear();
 }
 
 

@@ -54,5 +54,3 @@ void UMainWidget::RefreshSkill(int skill) {
 void UMainWidget::NativeConstruct() {
 	Super::NativeConstruct();
 }
-
-
