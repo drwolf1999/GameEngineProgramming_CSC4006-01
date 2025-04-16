@@ -42,10 +42,6 @@ void AFollowEnemy::MoveTick(float DeltaTime) {
 	}
 
 	this->dir = player->GetActorLocation() - GetActorLocation();
-	if (dir.Y * dir.Y + dir.Z * dir.Z > 250000) {
-		return;
-	}
-	
 	this->dir.Normalize();
 
 	FVector newLoc = GetActorLocation() + this->MoveSpeed * dir * DeltaTime * (this->isBoost ? 2.f : 1.f);
